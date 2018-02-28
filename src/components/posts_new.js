@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {Field, reduxForm} from 'redux-form'; // reduxForm allows component to talk to reduxstore
 import {Link} from 'react-router-dom';
+import {connect} from  'react-redux';
+import {createPost} from '../actions';
 
 
 class  PostsNew extends Component {
@@ -13,14 +15,14 @@ class  PostsNew extends Component {
         //destructuring
         const {meta: {touched, error}} = field;
         const className= `form-group ${touched && error ? 'has-danger': ''}`;
+        //onChange={field.input.onChange}
+        //onBlur={field.input.onBlur}
+        //onFocus={field.input.onFocus}
         return (
             <div className={className}>
                 <label> {field.label}</label>
                 <input
                     className="form-control"
-                    //onChange={field.input.onChange}
-                    //onBlur={field.input.onBlur}
-                    //onFocus={field.input.onFocus}
                     type="text"
                     {...field.input}
                 />
@@ -32,8 +34,7 @@ class  PostsNew extends Component {
     }
 
     onSubmit(values) {
-        // this === component
-        console.log(values);
+        this.props.createPost(values);
     }
 
     render() {
@@ -86,4 +87,6 @@ function validate(values) {
 export default reduxForm({
     validate,
     form: 'PostsNewForm' // more like name of the form
-})(PostsNew);
+})(
+  connect(null, {createPost}) (PostsNew)
+);
