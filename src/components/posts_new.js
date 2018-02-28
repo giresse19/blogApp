@@ -34,7 +34,11 @@ class  PostsNew extends Component {
     }
 
     onSubmit(values) {
-        this.props.createPost(values);
+        // props passed from react router to handle navigation
+
+        this.props.createPost(values, () => {
+            this.props.history.push('/');
+        });
     }
 
     render() {
